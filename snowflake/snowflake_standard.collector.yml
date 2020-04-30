@@ -1,0 +1,104 @@
+# A collector defining standard metrics for Microsoft SQL Server.
+#
+# It is required that the SQL Server user has the following permissions:
+#
+#   GRANT VIEW ANY DEFINITION TO
+#   GRANT VIEW SERVER STATE TO
+#
+collector_name: snowflake_standard
+
+# Similar to global.min_interval, but applies to the queries defined by this collector only.
+#min_interval: 0s
+
+metrics:
+  - metric_name: snowflake_local_time
+    type: gauge
+    help: 'Local timestamp of snowflake'
+    key_labels:
+      - SERVER_TIME
+    values: [COUNT]
+    query: |
+      SELECT current_timestamp AS SERVER_TIME, '0' AS COUNT FROM dual;
+
+  - metric_name: snowflake_dp_records
+    type: gauge
+    help: 'Number of daily records in dp.'
+    key_labels:
+      - DAY
+    values: [COUNT]
+    query: |
+      SELECT '2020-04-29' AS DAY ,COUNT(*) AS COUNT FROM DEVELOPMENT_TEST.DEPERSONALIZED_DATA.DEPERSONALIZED_DATA_LOAD
+      WHERE BATCH_ID BETWEEN 'tp=video/yr=2020/mo=04/dt=2020-04-28' AND 'tp=video/yr=2020/mo=04/dt=2020-04-29';
+  
+  - metric_name: snowflake_dp_task_success
+    type: gauge
+    help: 'SUCCEEDED_TASK.'
+    key_labels:
+      - SUCCEEDED_TASK
+    values: [COUNT]
+    query: |
+      SELECT NAME as SUCCEEDED_TASK, COUNT(1) as COUNT
+      from table(information_schema.task_history(SCHEDULED_TIME_RANGE_END=>current_timestamp(), scheduled_time_range_start=>dateadd('minute',-10,current_timestamp())))
+      where database_name='PRODUCTION_MAIN' and state='SUCCEEDED'
+      group by NAME;
+  
+  - metric_name: snowflake_dp_fail
+    type: gauge
+    help: 'FAILED_TASK.'
+    key_labels:
+      - FAILED_TASK
+    values: [COUNT]
+    query: |
+      select NAME AS FAILED_TASK, COUNT(1) as COUNT
+      from table(information_schema.task_history(SCHEDULED_TIME_RANGE_END=>current_timestamp(), scheduled_time_range_start=>dateadd('minute',-10,current_timestamp())))
+      where database_name='PRODUCTION_MAIN' and state='FAILED'
+      group by NAME;
+
+  - metric_name: snowflake_dp_task_time
+    type: gauge
+    help: 'TASK_NAME and time taken.'
+    key_labels:
+      - TASK_NAME
+    values: [PROCESSING_TIME]
+    query: |
+      select NAME as TASK_NAME, max(datediff(millisecond, QUERY_START_TIME, COMPLETED_TIME)) AS PROCESSING_TIME
+      from table(information_schema.task_history(SCHEDULED_TIME_RANGE_END=>current_timestamp(), scheduled_time_range_start=>dateadd('minute',-10,current_timestamp())))
+      where database_name='PRODUCTION_MAIN' and state='SUCCEEDED'
+      group by NAME;
+      
+  - metric_name: snowflake_dp_raw_table_load
+    type: gauge
+    help: 'row counts for types in d-p.'
+    key_labels:
+      - TYPE
+    values: [ROW_COUNT]
+    query: |
+      select split_part(file_name, '/', 2) as TYPE, sum(row_count) as ROW_COUNT
+      from table(information_schema.copy_history( 'PRODUCTION_MAIN.DEPERSONALIZED_DATA.DEPERSONALIZED_DATA_LOAD' ,start_time=> dateadd(minute, -5, current_timestamp())))
+      group by type;
+
+queries:
+  # Populates `snowflake_io_stall` and `snowflake_io_stall_total`
+  - query_name: snowflake_io_stall
+    query: |
+      SELECT
+        cast(DB_Name(a.database_id) as varchar) AS [db],
+        sum(io_stall_read_ms) / 1000.0 AS [read],
+        sum(io_stall_write_ms) / 1000.0 AS [write],
+        sum(io_stall) / 1000.0 AS io_stall
+      FROM
+        sys.dm_io_virtual_file_stats(null, null) a
+      INNER JOIN sys.master_files b ON a.database_id = b.database_id AND a.file_id = b.file_id
+      GROUP BY a.database_id
+
+  # Populates `snowflake_resident_memory_bytes`, `snowflake_virtual_memory_bytes`, `snowflake_memory_utilization_percentage` and
+  # `snowflake_page_fault_count`.
+  - query_name: snowflake_process_memory
+    query: |
+      SELECT
+        physical_memory_in_use_kb * 1024 AS resident_memory_bytes,
+        virtual_address_space_committed_kb * 1024 AS virtual_memory_bytes,
+        memory_utilization_percentage,
+        page_fault_count
+      FROM sys.dm_os_process_memory
+      
