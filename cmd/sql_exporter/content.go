@@ -5,19 +5,11 @@ import (
 	"html/template"
 	"net/http"
 
-<<<<<<< HEAD
 	"github.com/HBOCodeLabs/sql-exporter"
 )
 
 const (
 	docsUrl   = "https://github.com/HBOCodeLabs/sql-exporter#readme"
-=======
-	"sql_exporter"
-)
-
-const (
-	docsUrl   = "https://sql_exporter#readme"
->>>>>>> 2f68b11ba8fa186d79e8a31c5b4cd32245ad5f99
 	templates = `
     {{ define "page" -}}
       <html>

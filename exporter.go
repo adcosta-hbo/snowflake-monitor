@@ -6,11 +6,7 @@ import (
 	"fmt"
 	"sync"
 
-<<<<<<< HEAD
 	"github.com/HBOCodeLabs/sql-exporter/config"
-=======
-	"sql_exporter/config"
->>>>>>> 2f68b11ba8fa186d79e8a31c5b4cd32245ad5f99
 	"github.com/golang/protobuf/proto"
 	"github.com/prometheus/client_golang/prometheus"
 	dto "github.com/prometheus/client_model/go"
@@ -43,13 +39,9 @@ func NewExporter(configFile string) (Exporter, error) {
 	}
 
 	//calling vault
-<<<<<<< HEAD
 	// vault, err := FetchSecrets()
 	// log.Infof("vault %s", vault)
-=======
-	//vault, err := FetchSecrets()
-	//log.Infof("vault %s", vault)
->>>>>>> 2f68b11ba8fa186d79e8a31c5b4cd32245ad5f99
+
 
 	// Override the DSN if requested (and in single target mode).
 	if *dsnOverride != "" {

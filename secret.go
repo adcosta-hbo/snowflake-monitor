@@ -79,11 +79,7 @@ func FetchSecrets() (vaultKey string, err error) {
 	// RMDBPasswordSecretPath     string `json:"rmDBPasswordSecretPath"`
 
 	//cfg := opts.Secrets
-<<<<<<< HEAD
-//	vaultAddress := secrets.VaultAddress(cfg.Endpoint)
-=======
 	//vaultAddress := secrets.VaultAddress(cfg.Endpoint)
->>>>>>> 2f68b11ba8fa186d79e8a31c5b4cd32245ad5f99
 	// kubeCluster := secrets.KubernetesAuthClusterID(K8sAuthCluster)
 	// appRole := secrets.AppRole(AppRole)
 	// //note cacheTTL is irrelevant at this time since we only fetch each secret once on startup
