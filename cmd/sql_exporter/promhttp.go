@@ -12,7 +12,6 @@ import (
 	"sync"
 	"time"
 
-
 	"github.com/HBOCodeLabs/sql-exporter"
 	log "github.com/golang/glog"
 	"github.com/prometheus/client_golang/prometheus"

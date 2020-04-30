@@ -9,7 +9,6 @@ import (
 	"sync"
 	"time"
 
-
 	"github.com/HBOCodeLabs/sql-exporter/config"
 	"github.com/HBOCodeLabs/sql-exporter/errors"
 

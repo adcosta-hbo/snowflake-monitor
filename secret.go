@@ -1,6 +1,7 @@
 package sql_exporter
 
 import (
+	"encoding/json"
 	"time"
 
 	"github.com/HBOCodeLabs/hurley-kit/secrets"
@@ -62,58 +63,68 @@ type Options struct {
 }
 
 // FetchSecrets Use Vault configuration to acquire secrets according to their path, then populate the secret values in Options.
-func FetchSecrets() (vaultKey string, err error) {
+func FetchSecrets() (vaultKey []byte, err error) {
 
 	var opts Options
 
 	opts.Secrets.Endpoint = "https://vault.api.hbo.com"
-	// var K8sAuthCluster string = `jenkins`
-	// var AppRole string = `staging-tests`
-	// var CacheTimeoutInSeconds int = 10
-	// var TimeoutInSeconds int = 10
-	// var MaxRetries int = 10
-
-	// var AuthTokenSecretPath string = `secret/hurley/snowflake/staging/hurley-staging`
+	opts.Secrets.K8sAuthCluster = `jenkins`
+	opts.Secrets.AppRole = `staging-tests`
+	opts.Secrets.CacheTimeoutInSeconds = 10
+	opts.Secrets.TimeoutInSeconds = 10
+	opts.Secrets.MaxRetries = 10
+	opts.Secrets.AuthTokenSecretPath = "secret/hurley/auth/*token"
+	opts.Secrets.TokensDBPasswordSecretPath = "secret/hurley/snowflake/staging/hurley-staging"
 	// var TokensDBPasswordSecretPath string = `secret/hurley/snowflake/staging/hurley-staging`
 	// RMDBUsernameSecretPath     string `json:"rmDBUsernameSecretPath"`
 	// RMDBPasswordSecretPath     string `json:"rmDBPasswordSecretPath"`
 
 	cfg := opts.Secrets
 	vaultAddress := secrets.VaultAddress(cfg.Endpoint)
-	
-	// kubeCluster := secrets.KubernetesAuthClusterID(K8sAuthCluster)
-	// appRole := secrets.AppRole(AppRole)
-	// //note cacheTTL is irrelevant at this time since we only fetch each secret once on startup
-	// cacheTTL := secrets.CacheTTL(time.Duration(CacheTimeoutInSeconds) * time.Second)
-	// vaultTimeout := secrets.VaultTimeout(time.Duration(TimeoutInSeconds) * time.Second)
-	// vaultMaxRetries := secrets.VaultMaxRetries(MaxRetries)
+	kubeCluster := secrets.KubernetesAuthClusterID(cfg.K8sAuthCluster)
+	appRole := secrets.AppRole(cfg.AppRole)
+	//note cacheTTL is irrelevant at this time since we only fetch each secret once on startup
+	cacheTTL := secrets.CacheTTL(time.Duration(cfg.CacheTimeoutInSeconds) * time.Second)
+	vaultTimeout := secrets.VaultTimeout(time.Duration(cfg.TimeoutInSeconds) * time.Second)
+	vaultMaxRetries := secrets.VaultMaxRetries(cfg.MaxRetries)
 
-	// store, err := secrets.NewVaultStore(vaultAddress, kubeCluster, appRole, cacheTTL, vaultTimeout, vaultMaxRetries)
-	store, err := secrets.NewVaultStore(vaultAddress)
+	store, err := secrets.NewVaultStore(vaultAddress, kubeCluster, appRole, cacheTTL, vaultTimeout, vaultMaxRetries)
 
 	if err != nil {
 		return
 	}
 
-	if store == nil{
+	// Snowflake password
+	password, err := fetchSecret(store, opts.Secrets.TokensDBPasswordSecretPath)
+	if err != nil {
 		return
 	}
-	// Snowflake password
-	// password, err = fetchSecret(store, vaultAddress.TokensDBPasswordSecretPath)
-	// if err != nil {
-	// 	return
-	// }
-
-	return opts.Secrets.Endpoint, nil
+	return password, nil
 }
 
-// fetchSecret
-// func fetchSecret(store *secrets.VaultStore, secretPath string) (secretValue string, err error) {
-// 	secretBytes, err := store.Get(secretPath)
-// 	if err != nil {
-// 		return
-// 	}
-// 	secretValue = string(secretBytes)
-// 	log.Infof(fmt.Sprintf("Secret key: %s value: %s", secretPath, secretValue))
-// 	return
-// }
+//fetchSecret
+func fetchSecret(store *secrets.VaultStore, secretPath string) (secretValue []byte, err error) {
+	secretBytes, err := store.Get(secretPath)
+	if err != nil {
+		return
+	}
+	secretValue = secretBytes
+	return
+}
+
+// fetchAuthTokenSecret Auth token is stored as a single-valued json array requiring special parsing
+func fetchAuthTokenSecret(store *secrets.VaultStore, secretPath string) (authTokenValue string, err error) {
+	secretBytes, err := store.Get(secretPath)
+	if err != nil {
+		return
+	}
+
+	var keys []string
+	err = json.Unmarshal(secretBytes, &keys)
+	if err != nil {
+		return
+	}
+	authTokenValue = keys[0]
+
+	return
+}

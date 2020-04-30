@@ -5,12 +5,14 @@ import (
 	"flag"
 	"fmt"
 	"sync"
+	"strings"
 
 	"github.com/HBOCodeLabs/sql-exporter/config"
 	"github.com/golang/protobuf/proto"
 	"github.com/prometheus/client_golang/prometheus"
-	dto "github.com/prometheus/client_model/go"
+
 	log "github.com/golang/glog"
+	dto "github.com/prometheus/client_model/go"
 )
 
 var dsnOverride = flag.String("config.data-source-name", "", "Data source name to override the value in the configuration file with.")
@@ -34,15 +36,22 @@ type exporter struct {
 
 // NewExporter returns a new Exporter with the provided config.
 func NewExporter(configFile string) (Exporter, error) {
+	var password, username, vaultString string//calling vault
+	vault, err := FetchSecrets()
+	vaultString = string(vault);
+	
+	log.Infof("vaultString %s", vaultString )
+	keys := strings.Split(vaultString,`"`)
+	
+
+	password = keys[3] 
+	username= keys[7]
+	log.Infof("password:%s username:%s", password, username)
+
 	c, err := config.Load(configFile)
 	if err != nil {
 		return nil, err
 	}
-
-	//calling vault
-	vault, err := FetchSecrets()
-	log.Infof("vault %s", vault)
-
 
 	// Override the DSN if requested (and in single target mode).
 	if *dsnOverride != "" {
@@ -50,12 +59,18 @@ func NewExporter(configFile string) (Exporter, error) {
 			return nil, fmt.Errorf("The config.data-source-name flag (value %q) only applies in single target mode", *dsnOverride)
 		}
 		c.Target.DSN = config.Secret(*dsnOverride)
+		// strings.Replace(c.Target.DSN, "USERNAME", username,1)
+		// strings.Replace(c.Target.DSN, "PASSWORD", password,1)
 
 	}
 
 	var targets []Target
 	if c.Target != nil {
-		target, err := NewTarget("", "", string(c.Target.DSN), c.Target.Collectors(), nil, c.Globals)
+		var tempDSN = string(c.Target.DSN)
+		tempDSN = strings.Replace(tempDSN, "USERNAME", username,1)
+		tempDSN = strings.Replace(tempDSN, "PASSWORD", password,1)
+
+		target, err := NewTarget("", "", tempDSN, c.Target.Collectors(), nil, c.Globals)
 		if err != nil {
 			return nil, err
 		}

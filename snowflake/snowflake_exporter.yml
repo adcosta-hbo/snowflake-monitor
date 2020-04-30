@@ -17,7 +17,7 @@ target:
   # the schema gets dropped or replaced to match the driver expected DSN format.
   #jdbc:snowflake://wm_hbo.us-east-1.snowflakecomputing.com:443?warehouse=TELEGRAPH_BACKFILL&db=production_main
   #agnelo.dcosta@hbo.com:AggiMarc2020!@wm_hbo.us-east-1.snowflakecomputing.com:443/DEVELOPMENT_TEST/INFORMATION_SCHEMA?warehouse=TELEGRAPH_BACKFILL
-  data_source_name: 'snowflake://agnelo.dcosta@hbo.com:AggiMarc2020!@wm_hbo.us-east-1.snowflakecomputing.com:443/DEVELOPMENT_TEST/INFORMATION_SCHEMA?warehouse=TELEGRAPH_BACKFILL'
+  data_source_name: 'snowflake://USERNAME:PASSWORD@wm_hbo.us-east-1.snowflakecomputing.com:443/DEVELOPMENT_TEST/INFORMATION_SCHEMA?warehouse=TELEGRAPH_BACKFILL'
 
   # Collectors (referenced by name) to execute on the target.
   collectors: [snowflake_standard]
