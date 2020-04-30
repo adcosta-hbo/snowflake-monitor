@@ -9,7 +9,7 @@
             "type": "go",
             "request": "launch",
             "mode": "exec",
-            "program": "/Users/adcosta/dev/go/src/github.com/free/sql_exporter/sql_exporter",
+            "program": "/Users/adcosta/dev/go/src/github.com/HBOCodeLabs/sql-exporter/sql_exporter",
             "env": {},
             "args": [
                 "-config.file",
