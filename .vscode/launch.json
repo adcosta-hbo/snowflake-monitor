@@ -9,7 +9,11 @@
             "type": "go",
             "request": "launch",
             "mode": "exec",
+<<<<<<< HEAD
             "program": "/Users/adcosta/dev/go/src/github.com/HBOCodeLabs/sql-exporter/sql_exporter",
+=======
+            "program": "/Users/adcosta/dev/go/src/sql_exporter/sql_exporter",
+>>>>>>> 2f68b11ba8fa186d79e8a31c5b4cd32245ad5f99
             "env": {},
             "args": [
                 "-config.file",

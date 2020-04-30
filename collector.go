@@ -7,8 +7,13 @@ import (
 	"sync"
 	"time"
 
+<<<<<<< HEAD
 	"github.com/HBOCodeLabs/sql-exporter/config"
 	"github.com/HBOCodeLabs/sql-exporter/errors"
+=======
+	"sql_exporter/config"
+	"sql_exporter/errors"
+>>>>>>> 2f68b11ba8fa186d79e8a31c5b4cd32245ad5f99
 	log "github.com/golang/glog"
 	dto "github.com/prometheus/client_model/go"
 )

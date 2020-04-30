@@ -1732,5 +1732,9 @@
 			"revisionTime": "2019-11-19T11:51:43Z"
 		}
 	],
+<<<<<<< HEAD
 	"rootPath": "github.com/HBOCodeLabs/sql-exporter"
+=======
+	"rootPath": "sql_exporter"
+>>>>>>> 2f68b11ba8fa186d79e8a31c5b4cd32245ad5f99
 }

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # Prometheus SQL Exporter [![Build Status](https://travis-ci.org/free/sql_exporter.svg)](https://travis-ci.org/free/sql_exporter) [![Go Report Card](https://goreportcard.com/badge/github.com/HBOCodeLabs/sql-exporter)](https://goreportcard.com/report/github.com/HBOCodeLabs/sql-exporter) [![GoDoc](https://godoc.org/github.com/HBOCodeLabs/sql-exporter?status.svg)](https://godoc.org/github.com/HBOCodeLabs/sql-exporter) [![Docker Pulls](https://img.shields.io/docker/pulls/githubfree/sql_exporter.svg?maxAge=604800)](https://hub.docker.com/r/githubfree/sql_exporter)
+=======
+# Prometheus SQL Exporter [![Build Status](https://travis-ci.org/free/sql_exporter.svg)](https://travis-ci.org/free/sql_exporter) [![Go Report Card](https://goreportcard.com/badge/sql_exporter)](https://goreportcard.com/report/sql_exporter) [![GoDoc](https://godoc.org/sql_exporter?status.svg)](https://godoc.org/sql_exporter) [![Docker Pulls](https://img.shields.io/docker/pulls/githubfree/sql_exporter.svg?maxAge=604800)](https://hub.docker.com/r/githubfree/sql_exporter)
+>>>>>>> 2f68b11ba8fa186d79e8a31c5b4cd32245ad5f99
 
 Database agnostic SQL exporter for [Prometheus](https://prometheus.io).
 
@@ -20,11 +24,19 @@ metrics when queried more frequently than the configured interval.
 
 ## Usage
 
+<<<<<<< HEAD
 Get Prometheus SQL Exporter, either as a [packaged release](https://github.com/HBOCodeLabs/sql-exporter/releases/latest), as a [Docker image](https://hub.docker.com/r/githubfree/sql_exporter) or
 build it yourself:
 
 ```
 $ go install github.com/HBOCodeLabs/sql-exporter/cmd/sql_exporter
+=======
+Get Prometheus SQL Exporter, either as a [packaged release](https://sql_exporter/releases/latest), as a [Docker image](https://hub.docker.com/r/githubfree/sql_exporter) or
+build it yourself:
+
+```
+$ go install sql_exporter/cmd/sql_exporter
+>>>>>>> 2f68b11ba8fa186d79e8a31c5b4cd32245ad5f99
 ```
 
 then run it from the command line:
@@ -57,9 +69,15 @@ SQL Exporter process metrics are exported at `/sql_exporter_metrics`.
 
 The configuration examples listed here only cover the core elements. For a comprehensive and comprehensively documented
 configuration file check out 
+<<<<<<< HEAD
 [`documentation/sql_exporter.yml`](https://github.com/HBOCodeLabs/sql-exporter/tree/master/documentation/sql_exporter.yml).
 You will find ready to use "standard" DBMS-specific collector definitions in the
 [`examples`](https://github.com/HBOCodeLabs/sql-exporter/tree/master/examples) directory. You may contribute your own collector
+=======
+[`documentation/sql_exporter.yml`](https://sql_exporter/tree/master/documentation/sql_exporter.yml).
+You will find ready to use "standard" DBMS-specific collector definitions in the
+[`examples`](https://sql_exporter/tree/master/examples) directory. You may contribute your own collector
+>>>>>>> 2f68b11ba8fa186d79e8a31c5b4cd32245ad5f99
 definitions and metric additions if you think they could be more widely useful, even if they are merely different takes
 on already covered DBMSs.
 
