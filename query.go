@@ -5,8 +5,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/free/sql_exporter/config"
-	"github.com/free/sql_exporter/errors"
+	"sql_exporter/config"
+	"sql_exporter/errors"
 	log "github.com/golang/glog"
 )
 

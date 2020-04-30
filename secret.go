@@ -3,7 +3,7 @@ package sql_exporter
 import (
 	"time"
 
-	"github.com/HBOCodeLabs/hurley-kit/secrets"
+//	"github.com/HBOCodeLabs/hurley-kit/secrets"
 )
 
 // VaultConfig comment
@@ -79,7 +79,7 @@ func FetchSecrets() (vaultKey string, err error) {
 	// RMDBPasswordSecretPath     string `json:"rmDBPasswordSecretPath"`
 
 	//cfg := opts.Secrets
-	vaultAddress := secrets.VaultAddress(cfg.Endpoint)
+	//vaultAddress := secrets.VaultAddress(cfg.Endpoint)
 	// kubeCluster := secrets.KubernetesAuthClusterID(K8sAuthCluster)
 	// appRole := secrets.AppRole(AppRole)
 	// //note cacheTTL is irrelevant at this time since we only fetch each secret once on startup
