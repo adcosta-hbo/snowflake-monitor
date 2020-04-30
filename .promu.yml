@@ -1,11 +1,9 @@
 go:
     cgo: false
 repository:
-<<<<<<< HEAD
+
     path: github.com/HBOCodeLabs/sql-exporter
-=======
-    path: sql_exporter
->>>>>>> 2f68b11ba8fa186d79e8a31c5b4cd32245ad5f99
+
 build:
     binaries:
         - name: sql_exporter
