@@ -1,0 +1,49 @@
+{
+  "Raw": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0aW1lc3RhbXAiOjE0NjI0MDA4NDA1NDMsImV4cGlyYXRpb24iOjE0NjI0MTUyNDA1NDMsInBheWxvYWQiOnsiZ3JhbnRfdHlwZSI6InVzZXJfYXV0aGVudGljYXRvcl9sb2dpbiIsInRva2VuX3R5cGUiOiJhY2Nlc3MiLCJlbnZpcm9ubWVudCI6InByb2R1Y3Rpb24iLCJ1c2VySWQiOiJHT1JXUDE2NDU2Mzg0IiwidXNlclRrZXkiOiJHT1JXUDE2NDU2Mzg0IiwiYWZmaWxpYXRlIjoiSEJPIiwib3BhcXVlSWQiOiI5RTdFQjFEMTdDRUQwQkM1QTA1NzVDQjIxMDU3QjY3NCIsImF1dGhuRGF0YUVsZW1lbnQiOiIxNDYyMzk4MDU0NDk3JTdDaUpZSWVQcEZHaDdGcXZyUDQ5SUJkYmcyQXdlQXhFQ0IlMkY3M0xTYjAlMkI0NzglM0QiLCJjb3VudHJ5Q29kZSI6IlVTIiwiZGV2aWNlU2VyaWFsTnVtYmVyIjoiMDc3NWFiMjEtNDU3ZC00MzkwLWQ2NDUtZDgxMzAwODRiODM3Iiwic2Vzc2lvbklkIjoiMWQxYmZhM2QtNmY4Yi00Mjc4LTljZDAtN2Q4Zjc4MWIxZGIyIiwibm9uY2UiOiJmZDg0ZjBlZS1iMzMyLTQwYmUtYmY1ZS1mZjFlZDBmMWJjM2MiLCJwZXJtaXNzaW9ucyI6WzUsNCw3LDhdLCJzdHJlYW1UcmFja2luZ0lkIjoiR09SV1AxNjQ1NjM4NCIsInNhbWxTZXNzaW9uSW5kZXgiOiI4ODA0ZDk5Yi1kODBmLTQyMjAtOWJkNy0zMWJiNWMxNDdmZWEiLCJzYW1sTmFtZUlkIjoiOUU3RUIxRDE3Q0VEMEJDNUEwNTc1Q0IyMTA1N0I2NzQiLCJzZXJ2aWNlQ29kZSI6IkhCTyIsInBsYXRmb3JtVHlwZSI6ImRlc2t0b3AiLCJkZXZpY2VDb2RlIjoiZGVza3RvcCIsInZlcnNpb24iOjEsInBhcmVudGFsQ29udHJvbHMiOnsibW92aWUiOiJOQy0xNyIsInR2IjoiVFYtTUEifSwicmVxdWlyZXNBc3NldEF1dGh6IjpmYWxzZX19.oH2oOWrMk0O4RE614gYAnSxTWCOXLv_4ViUSjF1WKWI",
+  "Method": {
+    "Name": "HS256",
+    "Hash": 5
+  },
+  "Header": {
+    "alg": "HS256",
+    "typ": "JWT"
+  },
+  "Claims": {
+    "expiration": 1.462415240543e+12,
+    "payload": {
+      "affiliate": "HBO",
+      "authnDataElement": "1462398054497%7CiJYIePpFGh7FqvrP49IBdbg2AweAxECB%2F73LSb0%2B478%3D",
+      "countryCode": "US",
+      "deviceCode": "desktop",
+      "deviceSerialNumber": "0775ab21-457d-4390-d645-d8130084b837",
+      "environment": "production",
+      "grant_type": "user_authenticator_login",
+      "nonce": "fd84f0ee-b332-40be-bf5e-ff1ed0f1bc3c",
+      "opaqueId": "9E7EB1D17CED0BC5A0575CB21057B674",
+      "parentalControls": {
+        "movie": "NC-17",
+        "tv": "TV-MA"
+      },
+      "permissions": [
+        5,
+        4,
+        7,
+        8
+      ],
+      "platformType": "desktop",
+      "requiresAssetAuthz": false,
+      "samlNameId": "9E7EB1D17CED0BC5A0575CB21057B674",
+      "samlSessionIndex": "8804d99b-d80f-4220-9bd7-31bb5c147fea",
+      "serviceCode": "HBO",
+      "sessionId": "1d1bfa3d-6f8b-4278-9cd0-7d8f781b1db2",
+      "streamTrackingId": "GORWP16456384",
+      "token_type": "access",
+      "userId": "GORWP16456384",
+      "userTkey": "GORWP16456384",
+      "version": 1
+    },
+    "timestamp": 1.462400840543e+12
+  },
+  "Signature": "",
+  "Valid": false
+}
