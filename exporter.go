@@ -10,6 +10,7 @@ import (
 	"github.com/golang/protobuf/proto"
 	"github.com/prometheus/client_golang/prometheus"
 	dto "github.com/prometheus/client_model/go"
+	log "github.com/golang/glog"
 )
 
 var dsnOverride = flag.String("config.data-source-name", "", "Data source name to override the value in the configuration file with.")
@@ -39,8 +40,8 @@ func NewExporter(configFile string) (Exporter, error) {
 	}
 
 	//calling vault
-	// vault, err := FetchSecrets()
-	// log.Infof("vault %s", vault)
+	vault, err := FetchSecrets()
+	log.Infof("vault %s", vault)
 
 
 	// Override the DSN if requested (and in single target mode).

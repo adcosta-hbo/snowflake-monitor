@@ -3,7 +3,7 @@ package sql_exporter
 import (
 	"time"
 
-//	"github.com/HBOCodeLabs/hurley-kit/secrets"
+	"github.com/HBOCodeLabs/hurley-kit/secrets"
 )
 
 // VaultConfig comment
@@ -78,8 +78,9 @@ func FetchSecrets() (vaultKey string, err error) {
 	// RMDBUsernameSecretPath     string `json:"rmDBUsernameSecretPath"`
 	// RMDBPasswordSecretPath     string `json:"rmDBPasswordSecretPath"`
 
-	//cfg := opts.Secrets
-	//vaultAddress := secrets.VaultAddress(cfg.Endpoint)
+	cfg := opts.Secrets
+	vaultAddress := secrets.VaultAddress(cfg.Endpoint)
+	
 	// kubeCluster := secrets.KubernetesAuthClusterID(K8sAuthCluster)
 	// appRole := secrets.AppRole(AppRole)
 	// //note cacheTTL is irrelevant at this time since we only fetch each secret once on startup
@@ -88,17 +89,20 @@ func FetchSecrets() (vaultKey string, err error) {
 	// vaultMaxRetries := secrets.VaultMaxRetries(MaxRetries)
 
 	// store, err := secrets.NewVaultStore(vaultAddress, kubeCluster, appRole, cacheTTL, vaultTimeout, vaultMaxRetries)
-	// if err != nil {
-	// 	return
-	// }
+	store, err := secrets.NewVaultStore(vaultAddress)
 
+	if err != nil {
+		return
+	}
+
+	if store == nil{
+		return
+	}
 	// Snowflake password
 	// password, err = fetchSecret(store, vaultAddress.TokensDBPasswordSecretPath)
 	// if err != nil {
 	// 	return
 	// }
-
-	//store, err := secrets.NewVaultStore()
 
 	return opts.Secrets.Endpoint, nil
 }
